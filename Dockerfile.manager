@@ -5,3 +5,4 @@ RUN  mv /tmp/ev/lib* /lib/ \
 	&& mv /tmp/ev/v2ray-plugin /bin/ \ 
 	&& rm -rf /tmp/ev
 ENTRYPOINT ["/bin/ss-manager"]
+CMD ["--manager-address","0.0.0.0:7788"]
