@@ -1,0 +1,17 @@
+FROM alpine
+COPY ./ss-libev /tmp/ev
+RUN apk add --update privoxy \
+    && rm -rf /var/cache/apk/* \
+    && echo "listen-address 0.0.0.0:8118" > /etc/privoxy/config \
+	&& echo "debug 1" >> /etc/privoxy/config \
+	&& echo "forward-socks5 / 127.0.0.1:1080 ." >> /etc/privoxy/config \
+	&& echo "#!/bin/sh" > /run.sh \
+	&& echo "privoxy /etc/privoxy/config" >> /run.sh \
+	&& echo "ss-local \"\$@\"" >> /run.sh \
+	&& mv /tmp/ev/lib* /lib/ \
+	&& mv /tmp/ev/ss-local /bin/ \ 
+	&& mv /tmp/ev/v2ray-plugin /bin/ \ 
+	&& chmod +x /run.sh \ 
+	&& rm -rf /tmp/ev
+ENTRYPOINT ["/run.sh"]
+EXPOSE  8118

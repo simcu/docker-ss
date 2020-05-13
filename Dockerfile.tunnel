@@ -1,0 +1,7 @@
+FROM alpine
+COPY ./ss-libev /tmp/ev
+RUN  mv /tmp/ev/lib* /lib/ \
+	&& mv /tmp/ev/ss-tunnel /bin/ \ 
+	&& mv /tmp/ev/v2ray-plugin /bin/ \ 
+	&& rm -rf /tmp/ev
+ENTRYPOINT ["/bin/ss-tunnel"]
